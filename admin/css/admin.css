@@ -1,0 +1,256 @@
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background-color: #1f2937;
+  color: #fff;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid #444;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.sidebar-nav a {
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #ccc;
+  font-size: 14px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+  background-color: #111827;
+  color: #fff;
+  border-left: 4px solid #0066ff;
+}
+
+/* MAIN PANEL */
+.main-content {
+  margin-left: 220px;
+  padding: 20px;
+  width: calc(100% - 220px);
+}
+
+.main-header h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* STAT CARDS */
+.stats-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.card {
+  background-color: #ffffff;
+  flex: 1;
+  min-width: 200px;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 15px;
+  color: #0066ff;
+}
+
+.card p {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+/* CHARTS */
+.charts {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.chart-container {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 600px;
+}
+
+
+/* RECENT ACTIVITY TABLE */
+.recent-activity {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.recent-activity h2 {
+  margin-bottom: 20px;
+  color: #0066ff;
+}
+
+.recent-activity table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recent-activity th, .recent-activity td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.recent-activity th {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.recent-activity tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .stats-cards {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+}
+
+
+/* LOGIN PAGE */
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* perfect centering */
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+    transform: translate(-50%, -50%) translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+/* Form heading */
+#loginForm h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #182848;
+}
+
+/* Labels */
+#loginForm label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Inputs */
+#loginForm input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#loginForm input:focus {
+    border-color: #4b6cb7;
+    box-shadow: 0 0 8px rgba(75,108,183,0.3);
+    outline: none;
+}
+
+/* Button */
+#loginForm button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #4b6cb7, #182848);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#loginForm button:hover {
+    background: linear-gradient(135deg, #182848, #4b6cb7);
+    transform: scale(1.02);
+}
+
+/* Login message */
+#loginMessage {
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 500;
+    color: #ff4d4f;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 1.5rem;
+        border-radius: 10px;
+    }
+
+    #loginForm input, #loginForm button {
+        padding: 0.65rem;
+        font-size: 1rem;
+    }
+}

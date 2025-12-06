@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Princemue Lotto • Play & Win Daily</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/favIconTBU.png" type="Image/png">
+</head>
+<body>
+
+  <!-- HEADER -->
+    <header class="header">
+    <div class="logo"><img src="assets/npl.png" alt=""></div>
+
+    <!-- DESKTOP NAV -->
+    <nav class="nav desktop-nav">
+      <a href="#howToPlay">How To Play</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#checkTicket">Check Ticket</a>
+      <a href="#princePredict">Predict</a>
+
+      <div class="login-container">
+        <button class="btn-outline login-btn">Log In</button>
+        <div class="login-dropdown" id="loginDropdown">
+          <!-- <h3>Login</h3>
+          <input type="text" placeholder="Username">
+          <input type="password" placeholder="Password">
+          <button class="btn-primary">Login</button>
+        </div> -->
+      </div>
+
+      <a href="register.html" class="btn-primary">Register</a>
+    </nav>
+
+    <!-- MOBILE TOP BAR -->
+    <div class="mobile-actions">
+      <button class="btn-outline login-btn-mobile" id="desktop-btn">Log In</button>
+      <a href="register.html" class="btn-primary join-mobile">Register</a>
+
+      <!-- MOBILE MENU ICON USING SVG -->
+      <div id="mobileMenuIcon" style="width:35px; height:35px; cursor:pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+          <path d="M104 112C90.7 112 80 122.7 80 136L80 184C80 197.3 90.7 208 104 208L152 208C165.3 208 176 197.3 176 184L176 136C176 122.7 165.3 112 152 112L104 112zM256 128C238.3 128 224 142.3 224 160C224 177.7 238.3 192 256 192L544 192C561.7 192 576 177.7 576 160C576 142.3 561.7 128 544 128L256 128zM256 288C238.3 288 224 302.3 224 320C224 337.7 238.3 352 256 352L544 352C561.7 352 576 337.7 576 320C576 302.3 561.7 288 544 288L256 288zM256 448C238.3 448 224 462.3 224 480C224 497.7 238.3 512 256 512L544 512C561.7 512 576 497.7 576 480C576 462.3 561.7 448 544 448L256 448zM80 296L80 344C80 357.3 90.7 368 104 368L152 368C165.3 368 176 357.3 176 344L176 296C176 282.7 165.3 272 152 272L104 272C90.7 272 80 282.7 80 296zM104 432C90.7 432 80 442.7 80 456L80 504C80 517.3 90.7 528 104 528L152 528C165.3 528 176 517.3 176 504L176 456C176 442.7 165.3 432 152 432L104 432z"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#howToPlay">How To Play</a>
+    <a href="#leaderboard">Leaderboard</a>
+    <a href="#checkTicket">Check Ticket</a>
+    <a href="#princePredict">Predict</a>
+  </nav>
+
+
+
+
+  <!-- HERO SECTION -->
+   <section class="hero">
+  <img src="assets/pic1.jpeg" alt="Hero Image">
+</section>
+
+ 
+
+    <!-- GAME CATEGORY -->
+
+   <section class="game-categories-section">
+
+  <!-- Category Buttons -->
+  <div class="category-tabs">
+    <button class="cat-tab active" data-target="supreme">SUPREME CHANCE</button>
+    <button class="cat-tab" data-target="lite">LITE FORTUNE</button>
+    <button class="cat-tab" data-target="instant">MEGA REWARD</button>
+  </div>
+
+  <!-- Category Content -->
+  <div class="category-content">
+
+    <!-- SUPREME CHANCE -->
+    <div class="game-box active" id="supreme">
+      <img src="assets/icons8-number-1-48.png" alt="Supreme Icon" class="game-icon">
+      <h2>Supreme Chance Draw</h2>
+      <p class="close-info">Game closes by 6PM</p>
+
+      <div class="ticket-area">
+        <input type="text" id="supremeTicket" placeholder="Ticket Code" readonly>
+        <button class="shuffle-btn" onclick="shuffleTicket('supremeTicket')">Shuffle</button>
+        <button class="select-btn" onclick="selectTicket('supreme')">Select Ticket</button>
+      </div>
+
+      <div class="ticket-price">
+        <span>Ticket Price:</span>
+        <input type="text" value="₦1,000" readonly>
+      </div>
+
+      
+    </div>
+
+    <!-- LITE FORTUNE -->
+    <div class="game-box" id="lite">
+      <img src="assets/icons8-medal-second-place-50.png" alt="Lite fortune" class="game-icon">
+      <h2>Lite Fortune Draw</h2>
+      <p class="close-info">Game closes by 6PM</p>
+
+      <div class="ticket-area">
+        <input type="text" id="liteTicket" placeholder="Ticket Code" readonly>
+        <button class="shuffle-btn" onclick="shuffleTicket('liteTicket')">Shuffle</button>
+        <button class="select-btn" onclick="selectTicket('lite')">Select Ticket</button>
+      </div>
+
+      <div class="ticket-price">
+        <span>Ticket Price:</span>
+        <input type="text" value="₦500" readonly>
+      </div>
+
+      
+    </div>
+
+    <!-- INSTANT REWARD -->
+    <div class="game-box" id="instant">
+      <img src="assets/icons8-charge-64.png" alt="Instant Reward" class="game-icon">
+      <h2>Instant Reward Draw</h2>
+      <p class="close-info">Game closes by 6PM</p>
+
+      <div class="ticket-area">
+        <input type="text" id="instantTicket" placeholder="Ticket Code" readonly>
+        <button class="shuffle-btn" onclick="shuffleTicket('instantTicket')">Shuffle</button>
+        <button class="select-btn" onclick="selectTicket('instant')">Select Ticket</button>
+        
+      </div>
+
+      <div class="ticket-price">
+        <span>Ticket Price:</span>
+        <input type="text" value="₦300" readonly>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- CHECKOUT SECTION -->
+  <section class="checkout-section" id="checkoutSection">
+    <h2>Your Selected Tickets</h2>
+
+    <div class="tickets-list" id="ticketsList"></div>
+
+    <div class="checkout-total">
+      <span>Total Amount:</span>
+      <strong id="totalAmount">₦0</strong>
+    </div>
+
+    <button class="buy-ticket-final" onclick="finalPurchase()">Buy Ticket</button>
+  </section>
+
+
+  <!-- STATS SECTION -->
+   
+    <section id="resultsSection" class="results-section">
+    <!-- Supreme Chance -->
+    <div class="result-card">
+      <img src="assets/resultCard1.JPG" alt="Supreme Chance" />
+      <button class="open-modal" data-modal="modalSupreme">Check Result</button>
+    </div>
+
+    <!-- Lite Fortune -->
+    <div class="result-card">
+      <img src="assets/resultCard2.JPG" alt="Lite Fortune" />
+      <button class="open-modal" data-modal="modalLite">Check Result</button>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="result-card">
+      <img src="assets/resultCard3.JPG" alt="Leaderboard" />
+      <button class="open-modal" data-modal="modalLeaderboard">Check Result</button>
+    </div>
+
+      <!-- Weekend Predict -->
+     <div class="result-card">
+      <img src="assets/resultCard4.JPG" alt="Weekend Predict" />
+      <!-- <button class="open-modal" data-modal="modalSupreme">Check Result</button> -->
+    </div>
+  </section>
+
+  <!-- Supreme Modal -->
+  <div id="modalSupreme" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Supreme Chance Winners</h2>
+      <table>
+        <tr><th>Date</th><th>User ID</th><th>Prize</th></tr>
+        <tr><td>2025-01-01</td><td>SC4392</td><td>₦150,000</td></tr>
+        <tr><td>2025-01-08</td><td>SC8821</td><td>₦200,000</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Lite Fortune Modal -->
+  <div id="modalLite" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Lite Fortune Winners</h2>
+      <table>
+        <tr><th>Date</th><th>User ID</th><th>Prize</th></tr>
+        <tr><td>2025-01-02</td><td>LF1022</td><td>₦20,000</td></tr>
+        <tr><td>2025-01-04</td><td>LF5531</td><td>₦45,000</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Leaderboard Modal -->
+  <div id="modalLeaderboard" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Top Ticket Buyers</h2>
+      <table>
+        <tr><th>Rank</th><th>User ID</th><th>Points</th></tr>
+        <tr><td>1</td><td>USR9921</td><td>532</td></tr>
+        <tr><td>2</td><td>USR5530</td><td>478</td></tr>
+      </table>
+    </div>
+  </div>
+
+
+
+  
+
+    <section class="slider-section">
+    <div class="slider-container" id="sliderContainer">
+      <div class="slide active">
+        <img src="assets/slideSamp1.JPG" alt="Slide 1">
+      </div>
+      <div class="slide">
+        <img src="assets/slidSamp2.JPG" alt="Slide 2">
+      </div>
+      <div class="slide">
+        <img src="assets/slidSamp3.JPG" alt="Slide 3">
+      </div>
+      <div class="slide">
+        <img src="assets/slidSamp4.JPG" alt="Slide 4">
+      </div>
+    </div>
+  </section>
+
+
+  <section class="info-section">
+
+      <!-- DIV 1: How to Play -->
+      <div class="info-box">
+        <img src="assets/icons8-ticket-50.png" alt="How to Play">
+        <h2>How to Play</h2>
+        <p>Learn the rules and steps to participate in our lottery games easily.</p>
+        <button class="info-btn" id="howToPlayBtn">How to Play</button>
+      </div>
+
+      <!-- DIV 2: Join Us -->
+      <div class="info-box">
+        <img src="assets/icons8-join-58 (1).png" alt="Join Us">
+        <h2>Join Us</h2>
+        <p>Follow the simple steps to create your account and start playing.</p>
+        <button class="info-btn" id="joinUsBtn">Join Us</button>
+      </div>
+
+      <!-- DIV 3: Fund Wallet -->
+      <div class="info-box">
+        <img src="assets/icons8-wallet-64.png" alt="Fund Wallet">
+        <h2>Fund Wallet</h2>
+        <p>Add money to your wallet securely to buy lottery tickets and participate in draws.</p>
+        <button class="info-btn" id="fundWalletBtn">Fund Wallet</button>
+      </div>
+
+      <!-- DIV 4: Contact Us -->
+      <div class="info-box">
+        <img src="assets/icons8-contact-50.png" alt="Contact Us">
+        <h2>Contact Us</h2>
+        <p>Reach out to our support team for any questions, assistance, or feedback.</p>
+        <button class="info-btn" id="contactUsBtn">Contact Us</button>
+      </div>
+
+    </section>
+
+
+  <!-- FOOTER -->
+  <footer class="main-footer">
+  <div class="footer-content">
+
+    <!-- Logo -->
+    <div class="footer-logo">
+      <img src="assets/npl.png" alt="DailyWin Logo">
+    </div>
+
+    <!-- Text -->
+    <p class="footer-text">
+      PRINCEMUE LOTTO LIMITED is Registered with the Osun Internal Revenue Services (OIRS), Osun State,
+      and licenced in every state in which it has a branch office.
+      PRINCEMUE LOTTO LIMITED brings you fun, fair and rewarding daily chances to win. Age 18 and above only to register and play. <br>PLEASE GAMBLE RESPONSIBLY.
+    </p>
+
+    <!-- Social Media Icons -->
+    <div class="footer-social">
+      <a href="#"><img src="assets/icons8-facebook-50.png" alt=""></a>
+      <a href="#"><img src="assets/icons8-instagram-50.png" alt=""></a>
+      <a href="#"><img src="assets/icons8-x-50.png" alt=""></a>
+      <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+
+    <!-- 18+ Rated -->
+    <div class="footer-rating">
+      <span>18+</span>
+    </div>
+
+    <!-- Copyright -->
+    <p class="footer-copy">
+      © <span id="footerYear"></span>  2025. Powered By PRINCEMUE LOTTO LIMITED. All right reserved
+
+
+.
+    </p>
+
+  </div>
+</footer>
+
+
+  <script src="js/app.js"></script>
+</body>
+</html>
