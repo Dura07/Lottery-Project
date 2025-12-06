@@ -72,12 +72,7 @@ function selectTicket(category) {
     return;
   }
 
-    // Check if ticket already selected
-  const duplicate = selectedTickets.find(t => t.code === ticketCode);
-  if (duplicate) {
-    alert('You have already selected this ticket. Please choose a different one.');
-    return;
-  }
+  
 
   // Store ticket
   selectedTickets.push({
