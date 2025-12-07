@@ -4,10 +4,12 @@
   "description": "A real-world lottery and gaming platform with admin dashboard, secure backend APIs, and static frontend.",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js",
-    "test": "echo \"No test specified\""
-  },
+  "start": "node server/index.js",
+  "dev": "nodemon server/index.js",
+  "postinstall": "npm rebuild sqlite3"
+  
+}
+,
   "keywords": [
     "lottery",
     "gaming",
