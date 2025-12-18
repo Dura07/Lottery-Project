@@ -170,7 +170,7 @@ a {
 .btn-outline, .btn-primary {
   padding: 5px 9px;
   border-radius: 5px;
-  font-size: 13px;
+  font-size: 15px;
   cursor: pointer;
   transition: .3s;
 }
