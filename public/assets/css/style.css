@@ -48,7 +48,7 @@ html {
 
 /* Logo image */
 .logo img {
-  width: 290px;   /* desktop size */
+  width: 240px;   /* desktop size */
   height: auto;
   object-fit: cover;
 }
