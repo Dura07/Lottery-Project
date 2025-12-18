@@ -62,11 +62,11 @@ html {
 
 
 .mobile-nav {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0;
-  width: 100%;
-  height: fit-content; /* full screen */
+  width: 280px;
+  height: 100vh;
   background-color: #fff;
   z-index: 999;
   flex-direction: column;
