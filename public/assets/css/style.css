@@ -1296,7 +1296,7 @@ table th {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-top: 2px solid #e60d0d;
+  border-top: 2px solid #000000;
   z-index: 1000;
 }
 
