@@ -214,12 +214,7 @@ a {
 }
 
 /* MOBILE STYLES */
-@media (max-width: 768px) {
-  /* Hide desktop nav */
-  .desktop-nav {
-    display: none;
-  }
-}
+
 
 
   /* Mobile nav initially hidden */
@@ -277,7 +272,7 @@ a {
   }
 
   .logo img {
-    width: 260px;     /* adjust logo size for mobile */
+    width: 180px;     /* adjust logo size for mobile */
   }
 }
 
