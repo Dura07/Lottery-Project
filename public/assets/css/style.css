@@ -62,11 +62,11 @@ html {
 
 
 .mobile-nav {
-  display: flex;
+  display: none;
   position: fixed;
   top: 0;
-  width: 280px;
-  height: 100vh;
+  width: 100%;
+  height: fit-content;
   background-color: #fff;
   z-index: 999;
   flex-direction: column;
@@ -156,6 +156,7 @@ a {
     width: 35px;
     height: 35px;
 }
+
 
 /* Hide on desktop */
 @media (min-width: 769px) {
@@ -1034,55 +1035,67 @@ a {
 
 /* STATS SECTION */
 
-/* SECTION LAYOUT */
+/* SECTION LAYOUT *//* Results Section */
 .results-section {
   display: flex;
-  gap: 20px;
-  justify-content: center;
-  padding: 40px 20px;
-  flex-wrap: wrap;
+  gap: 14px;
+  padding: 12px;
+  overflow-x: auto;          /* enables swipe */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
+/* Hide scrollbar (mobile clean look) */
+.results-section::-webkit-scrollbar {
+  display: none;
+}
+
+/* Result Card */
 .result-card {
-  width: 260px;              /* narrower width */
-  height: 400px;             /* taller height */
-  position: relative;
-  border-radius: 2px;
+  flex: 0 0 75%;             /* card width on mobile */
+  max-width: 200px;
+  scroll-snap-align: start;
+  background: #fff;
+  border-radius: 5px;
   overflow: hidden;
-  cursor: pointer;
-  background: #ccc;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  text-align: center;
 }
 
-.result-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-}
-
+/* Images */
 .result-card img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
+  display: block;
 }
 
+/* Button */
 .result-card button {
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
+  width: 90%;
+  margin: 10px auto 12px;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 8px;
   border: none;
-  padding: 10px 22px;
-  border-radius: 15px;
+  background: #0d6efd;
+  color: #fff;
   cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
 }
 
-.result-card button:hover {
-  background: #eaeaea;
+/* Desktop View */
+@media (min-width: 768px) {
+  .results-section {
+    overflow-x: visible;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .result-card {
+    flex: 0 0 220px;
+  }
 }
+
 
 
 /* MODAL BASE */
