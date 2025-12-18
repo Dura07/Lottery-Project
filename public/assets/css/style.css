@@ -59,8 +59,83 @@ html {
   gap: 24px;
 }
 
+
+
 .mobile-nav {
   display: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: fit-content; /* full screen */
+  background-color: #fff;
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.mobile-nav .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: #222;
+  border-radius: 10px;
+  transition: background 0.25s ease;
+}
+
+/* Icon */
+.mobile-nav .nav-item img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.85;
+}
+
+.mobile-nav .nav-item span {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.mobile-nav .nav-item:hover {
+  background: #f3f3f3;
+}
+
+/* Logout styling */
+.mobile-nav .nav-item.logout {
+  color: #c62828;
+}
+
+.mobile-nav .nav-item.logout:hover {
+  background: #ffeaea;
+}
+
+
+a {
+  text-decoration: none;
+}
+
+/* Show nav when active */
+#mobileNav.active {
+    display: flex;
+}
+
+/* Links styling */
+#mobileNav a {
+    font-size: 1.2rem;
+    color: #222;
+    text-decoration: none;
+    padding: 10px 0;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s;
+}
+
+#mobileNav a:hover {
+    background-color: #f6f6f6;
+    color: #d80019; /* theme color */
 }
 
 .desktop-nav a {
@@ -74,6 +149,22 @@ html {
   transform: scale(1.05);
 
 }
+
+/* Hamburger icon styling */
+#mobileMenuIcon {
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+}
+
+/* Hide on desktop */
+@media (min-width: 769px) {
+    #mobileMenuIcon {
+        display: none;
+    }
+}
+
+
 
 /* Buttons */
 .btn-outline, .btn-primary {
@@ -111,33 +202,6 @@ html {
   transform: scale(1.05);
 }
 
-
-/* Login Dropdown */
-.login-container { position: relative; }
-
-.login-dropdown {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 45px;
-  width: 240px;
-  padding: 16px;
-  background: #161b22;
-  border: 1px solid #333;
-  border-radius: 8px;
-}
-
-.login-dropdown input {
-  width: 100%;
-  padding: 7px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #444;
-  background: #0f1318;
-  color: #572222;
-}
-
-
 /* Desktop nav hidden on mobile */
 .desktop-nav {
   display: flex;
@@ -164,6 +228,7 @@ html {
   .desktop-nav {
     display: none;
   }
+
 
   .mobile-actions {
     display: flex;
@@ -308,6 +373,83 @@ html {
   }
 }
 
+/* TICKET POOL *//* MODAL CONTAINER */
+.ticket-pool-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); /* semi-transparent overlay */
+}
+
+/* MODAL CONTENT */
+.ticket-pool-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  text-align: center;
+}
+
+.ticket-pool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.pool-ticket {
+  padding: 0.5rem;
+  border: 1px solid #999;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.pool-ticket:hover {
+  background-color: #e0f7ff;
+  border-color: #00aaff;
+}
+
+.pool-ticket.selected {
+  background-color: #00aaff;
+  color: #fff;
+  border-color: #0077cc;
+}
+
+.confirm-pool-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #0077cc;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.confirm-pool-btn:hover {
+  background-color: #005fa3;
+}
+
+.close-modal {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
 
 
 
@@ -336,7 +478,66 @@ html {
   border-radius: 30px;
   margin-bottom: 15px;
   font-size: 20px;
+
 }
+
+
+/* ================= TICKET VAULT ================= */
+
+.ticket-vault {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.ticket-vault.active {
+  display: flex;
+}
+
+.vault-box {
+  background: #fff;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.vault-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.vault-ticket {
+  padding: 12px;
+  background: #f1f1f1;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.vault-ticket:hover {
+  background: #d80019;
+  color: #fff;
+}
+
+.vault-close {
+  padding: 10px 15px;
+  border: none;
+  background: #333;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
 
   /* CHECKOUT SECTION */
   .checkout-section {
@@ -849,9 +1050,9 @@ html {
 
 .result-card {
   width: 260px;              /* narrower width */
-  height: 420px;             /* taller height */
+  height: 400px;             /* taller height */
   position: relative;
-  border-radius: 4px;
+  border-radius: 2px;
   overflow: hidden;
   cursor: pointer;
   background: #ccc;
@@ -1022,3 +1223,107 @@ table th {
     font-size: 1.2rem;
   }
 }
+
+
+
+/* =============================== */
+/*      DASHBOARD NAV STYLING      */
+/* =============================== */
+
+/* WRAPPER FOR DASHBOARD LINKS */
+.dashboard-nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* GENERAL LINK STYLE */
+.dashboard-nav a {
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 12px;
+  color: #222;
+  transition: 0.2s ease-in-out;
+}
+
+/* HOVER EFFECT */
+.dashboard-nav a:hover {
+  color: #d80019; /* your theme red */
+}
+
+/* WALLET BADGE */
+
+/* Wallet mobile toggle */
+.wallet-mobile {
+  padding: 5px 15px;
+  background: transparent;
+  border: 2px solid #d80019;
+  color: #d80019;
+  border-radius: 5px;
+  font-size: 17px;
+  /* font-weight: 600; */
+  text-align: center;
+  width: fit-content;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+/* Wallet text clickable */
+.wallet-mobile strong {
+  cursor: pointer;
+}
+
+
+
+/* ===== BOTTOM NAVIGATION  ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+ background-color: rgb(255, 255, 249);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+  z-index: 1000;
+}
+
+/* Each item */
+.bottom-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #db2424;
+  font-weight: 600;
+  font-size: 15px;
+  gap: 4px;
+}
+
+/* Icons */
+.bottom-item img {
+  width: 24px;
+  height: 24px;
+  opacity: 1;
+}
+
+/* Active item */
+/* .bottom-item.active {
+  color: #1a73e8;
+} */
+
+.bottom-item.active img {
+  opacity: 1;
+}
+
+/* Tap feedback */
+.bottom-item:active {
+  transform: scale(0.95);
+}
+
+

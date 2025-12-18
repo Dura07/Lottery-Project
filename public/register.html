@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Create Account</title>
+  <link rel="stylesheet" href="assets/css/auth.css" />
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script type="module" src="assets/js/auth.js"></script>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo"><a href="index.html"><img src="assets/images/redCrownLogo.png" alt=""></a></div>
+    </header>
+  
+  <main class="auth-card" role="main" aria-labelledby="regTitle">
+    <h2 id="regTitle">Create Account</h2>
+    <p class="lead">Register with your telephone number. You'll use it to login.</p>
+
+    <div id="regMessage" class="message"></div>
+
+    <form id="registerForm" novalidate>
+      <div class="form-row">
+        <input id="fullName" name="fullName" type="text" placeholder="Full Name" required />
+      </div>
+
+      <div class="form-row">
+        <input id="phone" name="phone" type="tel" placeholder="Telephone Number (e.g. +2348012345678)" required />
+      </div>
+
+      <div class="form-row input-with-toggle">
+        <input id="password" name="password" type="password" placeholder="Password (min 8 chars)" required minlength="8" />
+        <button type="button" class="toggle-btn" id="toggleRegPwd">Show</button>
+      </div>
+
+      <div class="form-row input-with-toggle">
+        <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password" required minlength="8" />
+        <button type="button" class="toggle-btn" id="toggleRegConfirm">Show</button>
+      </div>
+
+      <button class="btn-primary" type="submit">Register</button>
+    </form>
+
+    <div class="auth-footer">
+      <button class="switch-btn" onclick="location.href='login.html'">Already have an account? Login</button>
+    </div>
+  </main>
+
+  <script type="module">
+    const registerForm = document.getElementById('registerForm');
+    const messageDiv = document.getElementById('regMessage');
+
+    // Password toggle setup
+    const setupToggle = (toggleId, inputId) => {
+      const btn = document.getElementById(toggleId);
+      const input = document.getElementById(inputId);
+      btn.addEventListener('click', () => {
+        input.type = input.type === 'password' ? 'text' : 'password';
+        btn.innerText = input.type === 'password' ? 'Show' : 'Hide';
+      });
+    };
+
+    setupToggle('toggleRegPwd', 'password');
+    setupToggle('toggleRegConfirm', 'confirmPassword');
+
+    // Form submission
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      // Validation
+      if (!fullName || !phone || !password) {
+        messageDiv.innerText = "All fields are required.";
+        messageDiv.style.color = "red";
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        messageDiv.innerText = "Passwords do not match!";
+        messageDiv.style.color = "red";
+        return;
+      }
+
+      // Format Virtual Email for Firebase Auth
+      const virtualEmail = `${phone}@pm-lotto.com`;
+
+      messageDiv.innerText = "Creating your account...";
+      messageDiv.style.color = "blue";
+
+      // Call the function exposed to 'window' by auth.js
+      if (typeof window.registerUser === "function") {
+        try {
+          await window.registerUser(fullName, phone, virtualEmail, password);
+          // Redirection is handled inside your auth.js registerUser function
+        } catch (err) {
+          messageDiv.innerText = "Registration failed: " + err.message;
+          messageDiv.style.color = "red";
+        }
+      } else {
+        messageDiv.innerText = "System still loading, please try again in a moment.";
+        messageDiv.style.color = "orange";
+      }
+    });
+  </script>
+</body>
+</html>

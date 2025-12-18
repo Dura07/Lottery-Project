@@ -1,0 +1,167 @@
+
+:root{
+  --bg:#000000;
+  --card:#ffffff;
+  --muted:#000000;
+  --accent:#ffb800;
+  --accent-dark:#e6a400;
+  --success:#10b981;
+  --danger:#ef4444;
+  --glass: rgba(255,255,255,0.06);
+  --radius:12px;
+  --max-width:420px;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Segoe UI,Roboto,Arial, sans-serif;
+  background: linear-gradient(180deg,#0b1220 0%, #121827 60%);
+  color:#000000;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
+}
+
+/* Card */
+.auth-card{
+  width:90%;
+  max-width:var(--max-width);
+  background:var(--card);
+  border-radius:3px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.35);
+  padding:28px;
+  position:relative;
+  overflow:hidden;
+  margin-top: 50px;
+}
+
+/* Header */
+.auth-card h2{
+  margin:0 0 8px 0;
+  font-size:1.35rem;
+  color:#000000;
+}
+.auth-card p.lead{
+  margin:0 0 18px 0;
+  color:var(--muted);
+  font-size:0.95rem;
+}
+
+/* Form fields */
+.form-row{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.form-row input{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid #e6e9ef;
+  font-size:0.98rem;
+  outline:none;
+  transition:box-shadow .12s ease, border-color .12s ease;
+  background:#fff;
+}
+.form-row input:focus{
+  border-color: rgba(37,99,235,0.9);
+  box-shadow: 0 6px 18px rgba(37,99,235,0.08);
+}
+
+/* Password row with toggle */
+.input-with-toggle{
+  position:relative;
+}
+.input-with-toggle .toggle-btn{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  padding:6px 8px;
+  color:var(--muted);
+  font-weight:600;
+}
+
+/* Primary button */
+.btn-primary{
+  display:inline-block;
+  width:100%;
+  padding:12px;
+  background:var(--accent);
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+  color:#000000;
+  transition:transform .12s ease, background .12s ease;
+}
+.btn-primary:hover{ transform:translateY(-2px); background:var(--accent-dark); }
+
+/* Secondary link button */
+.switch-btn{
+  margin-top:12px;
+  background:transparent;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* Error & Success messages */
+.message {
+  display:none;
+  padding:10px 12px;
+  border-radius:8px;
+  margin-bottom:12px;
+  font-size:0.95rem;
+}
+.message.show{ display:block; }
+.message.error{ background: rgba(239,68,68,0.08); color: var(--danger); border:1px solid rgba(239,68,68,0.12); }
+.message.success{ background: rgba(16,185,129,0.07); color: var(--success); border:1px solid rgba(16,185,129,0.12); }
+
+/* Small helper text */
+.form-help{ font-size:0.86rem; color:var(--muted); margin-top:8px; }
+
+/* Center small footer */
+.auth-footer{ text-align:center; margin-top:16px; color:var(--muted); font-size:0.9rem; }
+
+/* Responsive */
+@media (max-width:420px){
+  .auth-card{ padding:18px; border-radius:10px; }
+}
+/* Layout for the options row */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* Style the checkbox and label */
+.remember-me {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #555;
+}
+
+.remember-me input {
+  margin-right: 8px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+/* Style the Forgot Password link */
+.forgot-link {
+  color: #0077cc; /* Matches your profile header color */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}

@@ -7,147 +7,214 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// ================= TAB SWITCHING =================
+const tabs = document.querySelectorAll(".cat-tab");
+const boxes = document.querySelectorAll(".game-box");
 
-// TAB SWITCHING
-  const tabs = document.querySelectorAll(".cat-tab");
-  const boxes = document.querySelectorAll(".game-box");
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    tabs.forEach(btn => btn.classList.remove("active"));
+    boxes.forEach(box => box.classList.remove("active"));
 
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-
-      // remove active classes
-      tabs.forEach(btn => btn.classList.remove("active"));
-      boxes.forEach(box => box.classList.remove("active"));
-
-      // activate clicked
-      tab.classList.add("active");
-      document.getElementById(tab.dataset.target).classList.add("active");
-    });
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.target).classList.add("active");
   });
+});
 
-  // SHUFFLE TICKET (random 5 digits)
-  function shuffleTicket(id) {
-    const randomNum = Math.floor(10000 + Math.random() * 90000);
-    document.getElementById(id).value = randomNum;
-  }
-
-
-  const ticketPrices = {
+// ================= PRICES =================
+const ticketPrices = {
   supreme: 1000,
   lite: 500,
   instant: 300
 };
 
-// -------------------------------------------
-// STORAGE FOR SELECTED TICKETS
-// -------------------------------------------
-let selectedTickets = [];  
-// Format: {category: "supreme", code: "452AR9", price: 500}
+// ================= STORAGE =================
+let selectedTickets = [];
+let activeTicketInput = null;
+let poolSelectedTickets = [];
+let ticketBoxVault = [];
 
+// ================= INIT TICKET VAULT =================
+// Create 50 tickets per category
+["supreme", "lite", "instant"].forEach(category => {
+  for (let i = 0; i < 50; i++) {
+    ticketBoxVault.push({
+      code: generateTicketCode(),
+      category: category,
+      price: ticketPrices[category],
+      purchased: false
+    });
+  }
+});
 
-// -------------------------------------------
-// GENERATE RANDOM TICKET
-// -------------------------------------------
-function shuffleTicket(inputId) {
+// ================= TICKET GENERATOR =================
+function generateTicketCode() {
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const numbers = Math.floor(100 + Math.random() * 900); // 3-digit
+  const numbers = Math.floor(100 + Math.random() * 900);
   const letter1 = letters[Math.floor(Math.random() * letters.length)];
   const letter2 = letters[Math.floor(Math.random() * letters.length)];
-
-  const ticketCode = `${numbers}${letter1}${letter2}`;
-
-  document.getElementById(inputId).value = ticketCode;
+  return `${numbers}${letter1}${letter2}`;
 }
 
+// ================= SHUFFLE =================
+function shuffleTicket(inputId) {
+  activeTicketInput = inputId;
 
-// -------------------------------------------
-// SELECT TICKET INTO CHECKOUT
-// -------------------------------------------
-function selectTicket(category) {
-  const inputId = category + "Ticket";
-  const ticketCode = document.getElementById(inputId).value;
+  const grid = document.getElementById("ticketPoolGrid");
 
-  if (!ticketCode || ticketCode.trim() === "") {
-    alert("Please shuffle ticket first.");
+  poolSelectedTickets = [];
+  generatedPoolTickets = [];
+  grid.innerHTML = "";
+
+  while (generatedPoolTickets.length < 6) {
+    const code = generateTicketCode();
+    if (!generatedPoolTickets.includes(code) && !isTicketPurchased(code)) {
+      generatedPoolTickets.push(code);
+    }
+  }
+
+  generatedPoolTickets.forEach(code => {
+    const div = document.createElement("div");
+    div.className = "pool-ticket";
+    div.textContent = code;
+    div.dataset.code = code;
+    div.addEventListener("click", togglePoolSelection);
+    grid.appendChild(div);
+  });
+
+  // Show modal
+  document.getElementById("ticketPoolModal").style.display = "block";
+}
+
+// Close modal function
+function closePoolModal() {
+  document.getElementById("ticketPoolModal").style.display = "none";
+}
+
+// Confirm pool selection
+function confirmPoolSelection() {
+  if (poolSelectedTickets.length === 0) {
+    alert("Select at least one ticket.");
     return;
   }
 
-  
+  const category = activeTicketInput.replace("Ticket", "");
 
-  // Store ticket
-  selectedTickets.push({
-    category: category,
-    code: ticketCode,
-    price: ticketPrices[category]
+  poolSelectedTickets.forEach(code => {
+    selectedTickets.push({
+      category,
+      code,
+      price: ticketPrices[category]
+    });
   });
 
   renderTickets();
   updateTotal();
 
-  alert("Ticket added!");
+  // Clear selections & close modal
+  poolSelectedTickets = [];
+  closePoolModal();
+}
+
+// OPTIONAL: prevent duplicate ticket picks (already in checkout)
+function isTicketPurchased(code) {
+  return selectedTickets.some(t => t.code === code);
 }
 
 
-// -------------------------------------------
-// RENDER TICKETS IN CHECKOUT SECTION
-// -------------------------------------------
+
+
+// ================= MULTI-SELECT =================
+function togglePoolSelection(e) {
+  e.stopPropagation();
+  const ticketEl = e.currentTarget;
+  const code = ticketEl.dataset.code;
+
+  if (ticketEl.classList.contains("selected")) {
+    ticketEl.classList.remove("selected");
+    poolSelectedTickets = poolSelectedTickets.filter(t => t !== code);
+  } else {
+    ticketEl.classList.add("selected");
+    poolSelectedTickets.push(code);
+  }
+}
+
+// ================= CONFIRM POOL =================
+function confirmPoolSelection() {
+  if (poolSelectedTickets.length === 0) {
+    alert("Select at least one ticket.");
+    return;
+  }
+
+  const category = activeTicketInput.replace("Ticket", "");
+
+  poolSelectedTickets.forEach(code => {
+    selectedTickets.push({
+      category,
+      code,
+      price: ticketPrices[category]
+    });
+
+    // Mark as purchased in vault to prevent re-selection
+    const ticket = ticketBoxVault.find(t => t.code === code);
+    if (ticket) ticket.purchased = true;
+  });
+
+  renderTickets();
+  updateTotal();
+
+  document.getElementById("ticketPool").classList.remove("active");
+  poolSelectedTickets = [];
+}
+
+// ================= RENDER CHECKOUT =================
 function renderTickets() {
   const container = document.getElementById("ticketsList");
-  container.innerHTML = ""; // clear list
+  container.innerHTML = "";
 
   selectedTickets.forEach((ticket, index) => {
     const div = document.createElement("div");
     div.className = "ticket-item";
-
     div.innerHTML = `
       <span>${ticket.code} — ₦${ticket.price}</span>
-      <button class="remove-ticket" onclick="removeTicket(${index})">Remove</button>
+      <button onclick="removeTicket(${index})">Remove</button>
     `;
-
     container.appendChild(div);
   });
 }
 
-
-// -------------------------------------------
-// REMOVE TICKET FROM LIST
-// -------------------------------------------
+// ================= REMOVE =================
 function removeTicket(index) {
+  const ticket = selectedTickets[index];
+
+  // Mark ticket as not purchased in vault
+  const vaultTicket = ticketBoxVault.find(t => t.code === ticket.code);
+  if (vaultTicket) vaultTicket.purchased = false;
+
   selectedTickets.splice(index, 1);
   renderTickets();
   updateTotal();
 }
 
-
-// -------------------------------------------
-// UPDATE TOTAL AMOUNT
-// -------------------------------------------
+// ================= TOTAL =================
 function updateTotal() {
-  let total = 0;
-  selectedTickets.forEach(t => total += t.price);
-
+  const total = selectedTickets.reduce((sum, t) => sum + t.price, 0);
   document.getElementById("totalAmount").textContent = "₦" + total;
 }
 
-
-// -------------------------------------------
-// FINAL PURCHASE (CONNECT TO BACKEND LATER)
-// -------------------------------------------
+// ================= FINAL PURCHASE =================
 function finalPurchase() {
   if (selectedTickets.length === 0) {
     alert("No tickets selected!");
     return;
   }
 
-  alert("Processing payment... (Backend integration coming next)");
-
-  // TODO: Send the selectedTickets array to backend
-  // fetch("/api/buy", {method: "POST", body: JSON.stringify(selectedTickets)})
-
-  selectedTickets = []; // reset
+  alert("Processing payment...");
+  selectedTickets = [];
   renderTickets();
   updateTotal();
 }
+
 
 
 // -------------------------------------------
@@ -225,5 +292,3 @@ window.onclick = (e) => {
     e.target.style.display = "none";
   }
 };
-
-

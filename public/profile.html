@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    /* GENERAL RESET */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    /* HEADER */
+    .profile-header {
+      display: flex; align-items: center; justify-content: flex-start;
+      gap: 1rem; padding: 1rem; background-color: #0077cc; color: #fff;
+      position: sticky; top: 0;
+    }
+    .profile-header h1 { flex-grow: 1; text-align: center; font-size: 1.5rem; }
+    .home-icon { font-size: 1.3rem; color: #fff; text-decoration: none; }
+
+    /* MAIN CONTAINER */
+    .profile-container {
+      display: flex; justify-content: center; align-items: center;
+      min-height: calc(100vh - 60px); padding: 1rem; background-color: #f2f2f2;
+    }
+
+    /* PROFILE CARD */
+    .profile-card {
+      background-color: #fff; padding: 2rem; border-radius: 2px;
+      width: 100%; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .profile-card h2 { font-size: 0.9rem; color: #777; margin-top: 1.5rem; text-transform: uppercase; }
+    .profile-card p { font-size: 1.2rem;  color: #222; margin-top: 0.25rem; word-break: break-all; }
+  </style>
+</head>
+<body>
+
+  <header class="profile-header">
+    <a href="dashboard.html" class="home-icon" title="Home"><img src="assets/images/icons8-arrow-back-50.png" alt=""></a> 
+    <h1>User Profile</h1>
+  </header>
+
+  <main class="profile-container">
+    <div class="profile-card">
+      <h2>Full Name</h2>
+      <p id="userFullName">Loading...</p>
+
+      <h2>Phone Number</h2>
+      <p id="userPhone">Loading...</p>
+
+      <h2>Player ID</h2>
+      <p id="playerID">Loading...</p>
+    </div>
+  </main>
+
+  <script type="module">
+    import { auth, db } from "./assets/js/firebaseauth.js"; // Ensure path is correct
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        // If not logged in, send to login page
+        window.location.href = "login.html";
+        return;
+      }
+
+      try {
+        // Fetch user document from Firestore using the Auth UID
+        const docRef = doc(db, "users", user.uid);
+        const snap = await getDoc(docRef);
+
+        if (snap.exists()) {
+          const data = snap.data();
+          
+          // Map data to the HTML IDs
+          document.getElementById("userFullName").textContent = data.fullName || "Not Set";
+          document.getElementById("userPhone").textContent = data.phone || "Not Set";
+          document.getElementById("playerID").textContent = data.playerID || "N/A";
+        } else {
+          console.error("No such document in Firestore!");
+          document.getElementById("userFullName").textContent = "Profile not found";
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    });
+  </script>
+
+  <script type="module" src="assets/js/auth-guard.js"></script>
+</body>
+</html>

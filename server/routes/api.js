@@ -1,20 +1,33 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  createTicket,
-  getAllTickets,
-  getTicketById,
-  buyTicket,
-} = require("../controllers/ticketController");
+// Since you don't have a ticketController file, 
+// we define the functions right here for now to stop the crash.
 
-const { verifyUserToken } = require("../middleware/authMiddleware");
+const getAllTickets = (req, res) => {
+  res.json({ status: "success", data: [] });
+};
+
+const getTicketById = (req, res) => {
+  res.json({ status: "success", message: "Ticket details" });
+};
+
+const buyTicket = (req, res) => {
+  res.json({ status: "success", message: "Ticket purchased!" });
+};
+
+const createTicket = (req, res) => {
+  res.json({ status: "success", message: "Ticket created!" });
+};
+
+// Middleware - make sure this file exists at server/middleware/authMiddleware.js
+// If it doesn't exist, comment out the line below and remove 'verifyUserToken' from routes
+// const { verifyUserToken } = require("../middleware/authMiddleware");
 
 // ----------------------------------------------------
 // PUBLIC ROUTES
 // ----------------------------------------------------
 
-// Welcome / health-check
 router.get("/", (req, res) => {
   res.json({
     status: "OK",
@@ -22,20 +35,14 @@ router.get("/", (req, res) => {
   });
 });
 
-// Get all tickets (public)
 router.get("/tickets", getAllTickets);
-
-// Get a single ticket
 router.get("/tickets/:id", getTicketById);
 
 // ----------------------------------------------------
 // PROTECTED USER ROUTES
 // ----------------------------------------------------
 
-// Buy ticket (requires user token)
 router.post("/tickets/buy", verifyUserToken, buyTicket);
-
-// Create ticket (admin but can exist here as user-level feature)
 router.post("/tickets", verifyUserToken, createTicket);
 
 module.exports = router;
