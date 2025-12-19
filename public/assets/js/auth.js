@@ -1,7 +1,8 @@
 import { auth, db } from "./firebaseauth.js";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
@@ -9,7 +10,6 @@ import {
   setDoc,
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
 
 // ================= REGISTER =================
 async function registerUser(fullName, phone, email, password) {
@@ -23,26 +23,56 @@ async function registerUser(fullName, phone, email, password) {
       fullName,
       phone,
       email,
-      playerID: playerID,  // Store this for the UI
+      playerID: playerID,
       uid: user.uid,
       wallet: 0,
       createdAt: new Date()
     });
 
-    window.location.href = "dashboard.html";
+    // --- SUCCESS MESSAGE LOGIC ---
+    const regMessage = document.getElementById('regMessage');
+    if (regMessage) {
+      regMessage.innerText = "Account created successfully! Redirecting to Dashboard...";
+      regMessage.style.color = "#28a745"; // Success Green
+      regMessage.style.backgroundColor = "#d4edda"; // Light green background
+      regMessage.style.padding = "10px";
+      regMessage.style.borderRadius = "5px";
+    }
+
+    // Wait 2 seconds so they can celebrate their new account
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 2000);
 
   } catch (error) {
     console.error("Register Error:", error);
-    alert(error.message);
+    
+    // Friendly error handling
+    const regMessage = document.getElementById('regMessage');
+    if (regMessage) {
+      let msg = error.message;
+      if (error.code === 'auth/email-already-in-use') {
+        msg = "This phone number is already registered.";
+      }
+      regMessage.innerText = msg;
+      regMessage.style.color = "red";
+      regMessage.style.backgroundColor = "transparent";
+    }
   }
 }
-
-
 // ================= LOGIN =================
-async function loginUser(email, password) {
+async function loginUser(email, password, phone) {
   try {
     const userCred = await signInWithEmailAndPassword(auth, email, password);
     const user = userCred.user;
+
+    // Handle Remember Me Logic
+    const rememberCheckbox = document.getElementById('rememberMe');
+    if (rememberCheckbox && rememberCheckbox.checked) {
+      localStorage.setItem('rememberedPhone', phone);
+    } else {
+      localStorage.removeItem('rememberedPhone');
+    }
 
     // Check if profile exists
     const snap = await getDoc(doc(db, "users", user.uid));
@@ -51,42 +81,25 @@ async function loginUser(email, password) {
       return;
     }
 
-    window.location.href = "dashboard.html";
+    // --- NEW LOGIC STARTS HERE ---
+    // 1. Find the message div on the login page
+    const loginMessage = document.getElementById('loginMessage');
+    if (loginMessage) {
+        loginMessage.innerText = "Login successful! Redirecting...";
+        loginMessage.style.color = "green";
+    }
+
+    // 2. Wait for 1.5 seconds so the user can actually read the message
+    setTimeout(() => {
+        window.location.href = "dashboard.html";
+    }, 1500); 
+    // --- NEW LOGIC ENDS HERE ---
+
   } catch (error) {
     console.error("Login Error:", error);
-    alert(error.message);
+    throw error; // Pass the error back to login.html to display
   }
 }
-
-
-// EXPOSE FUNCTIONS TO HTML
-window.registerUser = registerUser;
-window.loginUser = loginUser;
-
-
-
-// REMEMBER ME CHECKBOX
-// On Page Load: Check if phone was remembered
-window.addEventListener('DOMContentLoaded', () => {
-  const savedPhone = localStorage.getItem('rememberedPhone');
-  if (savedPhone) {
-    document.getElementById('loginPhone').value = savedPhone;
-    document.getElementById('rememberMe').checked = true;
-  }
-});
-
-// Inside Login Submit Event:
-const rememberMe = document.getElementById('rememberMe').checked;
-if (rememberMe) {
-    localStorage.setItem('rememberedPhone', phone);
-} else {
-    localStorage.removeItem('rememberedPhone');
-}
-
-
-
-// FORGOT PASSWORD 
-import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 // ================= RESET PASSWORD =================
 async function resetPassword(email) {
@@ -94,18 +107,29 @@ async function resetPassword(email) {
     await sendPasswordResetEmail(auth, email);
     return { success: true };
   } catch (error) {
-    // Map Firebase error codes to user-friendly messages
     let friendlyMessage = "An error occurred. Please try again.";
-    
     if (error.code === 'auth/user-not-found') {
       friendlyMessage = "This phone number is not registered.";
     } else if (error.code === 'auth/invalid-email') {
       friendlyMessage = "The phone number format is incorrect.";
     }
-
     return { success: false, message: friendlyMessage };
   }
 }
 
-// EXPOSE TO HTML (This ensures your buttons can see it)
+// ================= EXPOSE FUNCTIONS =================
+window.registerUser = registerUser;
+window.loginUser = loginUser;
 window.resetPassword = resetPassword;
+
+// ================= AUTO-FILL REMEMBERED PHONE =================
+window.addEventListener('DOMContentLoaded', () => {
+  const loginPhoneInput = document.getElementById('loginPhone');
+  const rememberCheckbox = document.getElementById('rememberMe');
+  const savedPhone = localStorage.getItem('rememberedPhone');
+  
+  if (savedPhone && loginPhoneInput) {
+    loginPhoneInput.value = savedPhone;
+    if (rememberCheckbox) rememberCheckbox.checked = true;
+  }
+});

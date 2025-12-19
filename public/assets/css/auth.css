@@ -111,15 +111,13 @@ body{
 
 /* Error & Success messages */
 .message {
-  display:none;
-  padding:10px 12px;
-  border-radius:8px;
-  margin-bottom:12px;
-  font-size:0.95rem;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    min-height: 20px; /* Prevents layout jump */
 }
-.message.show{ display:block; }
-.message.error{ background: rgba(239,68,68,0.08); color: var(--danger); border:1px solid rgba(239,68,68,0.12); }
-.message.success{ background: rgba(16,185,129,0.07); color: var(--success); border:1px solid rgba(16,185,129,0.12); }
 
 /* Small helper text */
 .form-help{ font-size:0.86rem; color:var(--muted); margin-top:8px; }

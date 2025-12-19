@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Football Predictor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f6fa;
+      padding-bottom: 80px; /* space for bottom nav */
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: rgb(255, 255, 249);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* .back-btn {
+      font-size: 10px;
+      cursor: pointer;
+    } */
+
+    /* .logo {
+      font-weight: bold;
+      font-size: 18px;
+    } */
+
+    /* .wallet-mobile {
+      background: #f0f0f0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    } */
+
+    /* ===== HERO FOOTBALL IMAGE ===== */
+    .football-hero {
+      padding: 16px;
+      text-align: center;
+    }
+
+    .football-hero img {
+      max-width: 100%;
+      /* border-radius: 12px; */
+    }
+
+    .play-now-btn {
+      margin-top: 12px;
+      padding: 12px;
+      width: 100%;
+      background: #ffe605;
+      color: #000000;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ===== MATCH SECTION ===== */
+    .matches-section {
+      display: none;
+      padding: 16px;
+    }
+
+    .matches-section h4 {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .match {
+      background: #fff;
+      padding: 12px;
+      border-radius: 1px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .team {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 40%;
+    }
+
+    .team img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .score-inputs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .score-inputs input {
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      padding: 4px;
+    }
+
+    /* ===== STAKE ===== */
+    .stake-box {
+      margin-top: 16px;
+      background: #fff;
+      padding: 14px;
+      border-radius: 10px;
+    }
+
+    .stake-box h5 {
+      margin-bottom: 8px;
+    }
+
+    .stake-box input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #f2f2f2;
+    }
+
+    .submit-btn {
+      margin-top: 14px;
+      width: 100%;
+      padding: 12px;
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* ===== BOTTOM NAV ===== */
+    /* .mobile-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      background: #fff;
+      border-top: 1px solid #ddd;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .nav-item {
+      text-align: center;
+      font-size: 12px;
+      color: #333;
+      text-decoration: none;
+    }
+
+    .nav-item img {
+      width: 22px;
+      display: block;
+      margin: 0 auto 2px;
+    } */
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <a href="dashboard.html" class="home-icon" title="Home"><img src="assets/images/icons8-back-arrow-64.png" alt=""></a> 
+    <div class="logo"><a href="dashboard.html"><img src="assets/images/redCrownLogo.png" alt=""></a></div>
+    <div class="mobileAccountToggle">
+      <div class="wallet-mobile" id="walletToggleBtn">
+        <strong id="walletBalanceMobile">₦0</strong>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== FOOTBALL IMAGE ===== -->
+  <div class="football-hero">
+    <img src="assets/images/game.jpg" alt="Football" />
+    <button class="play-now-btn" id="playNowBtn">Play Now</button>
+  </div>
+
+  <!-- ===== MATCHES ===== -->
+  <section class="matches-section" id="matchesSection">
+    <h4>This Week Games</h4>
+
+    <!-- 6 MATCH PAIRS -->
+    <!-- Repeatable block -->
+    <div class="match">
+      <div class="team">
+        <img src="assets/images/team1.png" alt="">
+        <span>Team A</span>
+      </div>
+
+      <div class="score-inputs">
+        <input type="number" min="0">
+        <input type="number" min="0">
+      </div>
+
+      <div class="team">
+        <span>Team B</span>
+        <img src="assets/images/team2.png" alt="">
+      </div>
+    </div>
+
+    <!-- Duplicate 5 more times -->
+    <div class="match">
+      <div class="team"><img src="assets/images/team1.png">Team C</div>
+      <div class="score-inputs"><input type="number"><input type="number"></div>
+      <div class="team">Team D<img src="assets/images/team2.png"></div>
+    </div>
+
+    <div class="match">
+      <div class="team"><img src="assets/images/team1.png">Team E</div>
+      <div class="score-inputs"><input type="number"><input type="number"></div>
+      <div class="team">Team F<img src="assets/images/team2.png"></div>
+    </div>
+
+    <div class="match">
+      <div class="team"><img src="assets/images/team1.png">Team G</div>
+      <div class="score-inputs"><input type="number"><input type="number"></div>
+      <div class="team">Team H<img src="assets/images/team2.png"></div>
+    </div>
+
+    <div class="match">
+      <div class="team"><img src="assets/images/team1.png">Team I</div>
+      <div class="score-inputs"><input type="number"><input type="number"></div>
+      <div class="team">Team J<img src="assets/images/team2.png"></div>
+    </div>
+
+    <div class="match">
+      <div class="team"><img src="assets/images/team1.png">Team K</div>
+      <div class="score-inputs"><input type="number"><input type="number"></div>
+      <div class="team">Team L<img src="assets/images/team2.png"></div>
+    </div>
+
+    <!-- STAKE -->
+    <div class="stake-box">
+      <h5>Stake</h5>
+      <input type="text" value="₦200" readonly />
+    </div>
+
+    <button class="submit-btn">Submit Prediction</button>
+  </section>
+
+  <!-- BOTTOM NAVIGATION -->
+
+  <nav class="bottom-nav">
+  <a href="dashboard.html" class="bottom-item active">
+    <img src="assets/images/icons8-home-50.png" alt="Home">
+    <span>Home</span>
+  </a>
+
+  <a href="#" class="bottom-item">
+    <img src="assets/images/icons8-question-mark-48.png" alt="Tickets">
+    <span>HowToPlay</span>
+  </a>
+
+  <a href="#" class="bottom-item">
+    <img src="assets/images/icons8-leaderboard-50.png" alt="footballPredict">
+     
+    <span>Leaderboard</span>
+  </a>
+
+  <a href="#" class="bottom-item">
+    <img src="assets/images/icons8-result-32.png" alt="Account">
+    <span>Results</span>
+  </a>
+</nav>
+
+  <!-- ===== JS ===== -->
+  <script>
+    document.getElementById("playNowBtn").addEventListener("click", () => {
+      document.getElementById("matchesSection").style.display = "block";
+      document.getElementById("matchesSection").scrollIntoView({ behavior: "smooth" });
+    });
+  </script>
+
+</body>
+</html>
